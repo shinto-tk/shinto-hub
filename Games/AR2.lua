@@ -169,7 +169,7 @@ local Window = Shinto.Utilities.UI:Window({
             GlobalSection:Toggle({Name = "Team Check",Flag = "ESP/Player/TeamCheck",Value = false})
             GlobalSection:Toggle({Name = "Use Team Color",Flag = "ESP/Player/TeamColor",Value = false})
             GlobalSection:Toggle({Name = "Distance Check",Flag = "ESP/Player/DistanceCheck",Value = true})
-            GlobalSection:Slider({Name = "Distance",Flag = "ESP/Player/Distance",Min = 25,Max = 10000,Value = 250,Unit = "meters"})
+            GlobalSection:Slider({Name = "Distance",Flag = "ESP/Player/Distance",Min = 25,Max = 5000,Value = 250,Unit = "meters"})
         end
         local BoxSection = VisualsTab:Section({Name = "Boxes",Side = "Left"}) do
             BoxSection:Toggle({Name = "Box Enabled",Flag = "ESP/Player/Box/Enabled",Value = false})
@@ -319,8 +319,9 @@ local Window = Shinto.Utilities.UI:Window({
             end}):Keybind()
             MiscSection:Button({Name = "Instant Interact",Side = "Right",
             Callback = Shinto.Utilities.Misc.InstantI})
-            MiscSection:Textbox({Name = "Teleport to Player",Flag = "Misc/PlrTP",Placeholder = "Username",
+            local PlrTP = MiscSection:Textbox({Name = "Teleport to Player",Flag = "Misc/PlrTP",Placeholder = "Username",
             Callback = function(String) tp(String) end})
+            PlrTP:ToolTip("Use No Fall Impact \nStart moving once teleported or you'll be sent back")
         end
     end
     local SettingsTab = Window:Tab({Name = "Settings"}) do
