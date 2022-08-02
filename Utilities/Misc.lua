@@ -1,4 +1,4 @@
-local TeleportService = game:GetService("TeleportService")
+`local TeleportService = game:GetService("TeleportService")
 local HttpService = game:GetService("HttpService")
 local RunService = game:GetService("RunService")
 local PlayerService = game:GetService("Players")
@@ -72,6 +72,27 @@ function Misc:NewThreadLoop(Wait,Function)
             end
         end
     end)
+end
+
+function Misc:InstantI()
+    for i,v in pairs(getgc()) do
+        if getfenv(v).script == game.ReplicatedStorage.Client.Abstracts.Interface.Interact then
+          table.foreach(getconstants(v),function(a,b) if table.find({0.65,0.3},b) then setconstant(v,a,0) end  end)
+        end
+    end
+end
+
+function Misc:PlrTP()
+    local function tp(anch)
+        pcall(function()
+            game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored = true
+            wait(0.2)
+            game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Players")[anch].Character.HumanoidRootPart.CFrame * CFrame.new(10,5,10)
+            wait(6)
+            game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored = false
+        end)
+    end
+    tp(String)
 end
 
 function Misc:ReJoin()
