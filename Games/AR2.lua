@@ -307,8 +307,8 @@ local Window = Shinto.Utilities.UI:Window({
             MiscSection:Toggle({Name = "Map ESP",Flag = "AR2/MapESP",Value = false,Callback = function(Bool)
                 if Bool then Interface:Get("Map"):EnableGodview() else Interface:Get("Map"):DisableGodview() end
             end}):Keybind()
-            MiscSection:Button({Name = "Instant Interact",Side = "Right",
-            Callback = Shinto.Utilities.Misc.InstantI})
+            --MiscSection:Button({Name = "Instant Interact",Side = "Right",
+            --Callback = Shinto.Utilities.Misc.InstantI})
             --MiscSection:Textbox({Name = "Teleport to Player",Flag = "Misc/PlrTP",Placeholder = "Username",
             --Callback = function tp(anch)
             --    pcall(function()
