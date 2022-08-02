@@ -22,12 +22,12 @@ end
 
 local function GetScript(Script)
     return Shinto.Debug and readfile("Shinto/" .. Script .. ".lua")
-    or game:HttpGetAsync("https://raw.githubusercontent.com/shinto-tk/shinto-hub/main/" .. Script .. ".lua")
+    or game:HttpGetAsync("https://raw.githubusercontent.com/shinto-tk/shinto-hub/beta/" .. Script .. ".lua")
 end
 
 local function LoadScript(Script)
     return loadstring(Shinto.Debug and readfile("Shinto/" .. Script .. ".lua")
-    or game:HttpGetAsync("https://raw.githubusercontent.com/shinto-tk/shinto-hub/main/" .. Script .. ".lua"))()
+    or game:HttpGetAsync("https://raw.githubusercontent.com/shinto-tk/shinto-hub/beta/" .. Script .. ".lua"))()
 end
 
 getgenv().Shinto = {
