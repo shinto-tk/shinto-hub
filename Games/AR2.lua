@@ -76,7 +76,7 @@ local function tp(anch)
     pcall(function()
         game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored = true
         wait(0.2)
-        game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(anch)
+        game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Players")[anch].Character.HumanoidRootPart.CFrame * CFrame.new(10,5,10)
         wait(6)
         game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored = false
     end)
@@ -320,7 +320,7 @@ local Window = Shinto.Utilities.UI:Window({
             MiscSection:Button({Name = "Instant Interact",Side = "Right",
             Callback = Shinto.Utilities.Misc.InstantI})
             MiscSection:Textbox({Name = "Teleport to Player",Flag = "Misc/PlrTP",Placeholder = "Username",
-            Callback = tp(String)})
+            Callback = function(String) tp(String) end})
         end
     end
     local SettingsTab = Window:Tab({Name = "Settings"}) do
