@@ -276,6 +276,15 @@ local Window = Shinto.Utilities.UI:Window({
         end
     end
     local MiscTab = Window:Tab({Name = "Miscellaneous"}) do
+        local function tp(anch)
+            pcall(function()
+                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored = true
+                wait(0.2)
+                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Players")[anch].Character.HumanoidRootPart.CFrame * CFrame.new(10,5,10)
+                wait(6)
+                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored = false
+            end)
+        end
         local RecoilSection = MiscTab:Section({Name = "Recoil Control",Side = "Left"}) do
             RecoilSection:Toggle({Name = "Enabled",Flag = "AR2/Recoil/Enabled",Value = false})
             RecoilSection:Slider({Name = "Spread",Flag = "AR2/Recoil/Spread",Min = 0,Max = 100,Value = 0,Unit = "%"})
@@ -310,7 +319,7 @@ local Window = Shinto.Utilities.UI:Window({
             MiscSection:Button({Name = "Instant Interact",Side = "Right",
             Callback = Shinto.Utilities.Misc.InstantI})
             MiscSection:Textbox({Name = "Teleport to Player",Flag = "Misc/PlrTP",Placeholder = "Username",
-            Callback = Shinto.Utilities.Misc.PlrTP})
+            Callback = tp(String)})
         end
     end
     local SettingsTab = Window:Tab({Name = "Settings"}) do
