@@ -72,6 +72,16 @@ Network.Fetch = function(Self,...)
     end return OldFetch(Self,...)
 end]]
 
+local function tp(anch)
+    pcall(function()
+        game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored = true
+        wait(0.2)
+        game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(anch)
+        wait(6)
+        game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored = false
+    end)
+end
+
 local Window = Shinto.Utilities.UI:Window({
     Name = "Shinto Hub — "..Shinto.Game,
     Position = UDim2.new(0.05,0,0.5,-248)
@@ -310,16 +320,7 @@ local Window = Shinto.Utilities.UI:Window({
             MiscSection:Button({Name = "Instant Interact",Side = "Right",
             Callback = Shinto.Utilities.Misc.InstantI})
             MiscSection:Textbox({Name = "Teleport to Player",Flag = "Misc/PlrTP",Placeholder = "Username",
-            Callback = function tp(anch)
-                pcall(function()
-                    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored = true
-                    wait(0.2)
-                    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Players")[anch].Character.HumanoidRootPart.CFrame * CFrame.new(10,5,10)
-                    wait(6)
-                    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored = false
-                end)
-            end
-            tp(String)})
+            Callback = tp(String)})
         end
     end
     local SettingsTab = Window:Tab({Name = "Settings"}) do
