@@ -317,9 +317,18 @@ local Window = Shinto.Utilities.UI:Window({
             MiscSection:Toggle({Name = "Map ESP",Flag = "AR2/MapESP",Value = false,Callback = function(Bool)
                 if Bool then Interface:Get("Map"):EnableGodview() else Interface:Get("Map"):DisableGodview() end
             end}):Keybind()
-            MiscSection:Toggle({Name = "Speed",Flag = "AR2/Speed",Value= false}):Keybind()
-            MiscSection:Toggle({Name = "Inf Jump",Flag= "AR2/InfJump",Value = false}):Keybind()
-            MiscSection:Toggle({Name = "Instant Interact",Flag = "AR2/II",Value = false}):Keybind()
+            MiscSection:Toggle({Name = "Speed",Flag = "AR2/Speed",Value= false,Callback = function(Bool)
+                if Bool then localPlr.Character.HumanoidRootPart.CFrame = localPlr.Character.HumanoidRootPart.CFrame + localPlr.Character.Humanoid.MoveDirection * 0.3 end}):Keybind()
+            MiscSection:Toggle({Name = "Inf Jump",Flag= "AR2/InfJump",Value = false,Callback = function(Bool)
+                if Bool then if game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.Space) and localPlr.Character:FindFirstChild("Humanoid") then
+                    localPlr.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+            end}):Keybind()
+            MiscSection:Toggle({Name = "Instant Interact",Flag = "AR2/II",Value = false,Callback = function(Bool)
+                if Bool then for i,v in pairs(getgc()) do
+                    if getfenv(v).script == game.ReplicatedStorage.Client.Abstracts.Interface.Interact then
+                      table.foreach(getconstants(v),function(a,b) if table.find({0.65,0.3},b) then setconstant(v,a,0) end  end)
+                    end
+            end}):Keybind()
             --local PlrTP = MiscSection:Textbox({Name = "Teleport to Player",Flag = "Misc/PlrTP",Placeholder = "Username",
             --Callback = function(String) tp(String) end})
             --PlrTP:ToolTip("Use No Fall Impact \nStart moving once teleported or you'll be sent back")
@@ -746,42 +755,6 @@ RunService.Heartbeat:Connect(function()
                 Zombie.Anchored = false
             end
         end
-    end
-
-    if Window.Flags["AR2/Speed"] then
-        while wait() and getgenv().settings.speedTog and localPlr.Character:FindFirstChild("Humanoid") do
-            localPlr.Character.HumanoidRootPart.CFrame = localPlr.Character.HumanoidRootPart.CFrame + localPlr.Character.Humanoid.MoveDirection * 0.3
-        end
-    end
-
-    if Window.Flags["AR2/InfJump"] then
-        while wait() and getgenv().settings.infJumpTog do
-            if game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.Space) and localPlr.Character:FindFirstChild("Humanoid") then
-                localPlr.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
-            end
-        end
-    end
-
-    if Window.Flags["AR2/II"] then
-        for i,v in pairs(getgc()) do
-            if getfenv(v).script == game.ReplicatedStorage.Client.Abstracts.Interface.Interact then
-              table.foreach(getconstants(v),function(a,b) if table.find({0.65,0.3},b) then setconstant(v,a,0) end  end)
-            end
-        end
-    end
-
-    if Window.Flags["AR2/II"] then
-        localPlr.Character.LeftFoot.Touched:Connect(function(part)
-            if part.Parent.Name == "Sea" and part.Name == "Water" then
-                part.CanCollide = getgenv().settings.jesusTog
-            end
-        end)
-            
-        localPlr.Character.RightFoot.Touched:Connect(function(part)
-            if part.Parent.Name == "Sea" and part.Name == "Water" then
-                part.CanCollide = getgenv().settings.jesusTog
-            end
-        end)
     end
 end)
 Shinto.Utilities.Misc:NewThreadLoop(0,function()
