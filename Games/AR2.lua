@@ -770,20 +770,18 @@ RunService.Heartbeat:Connect(function()
         end
     end
 
-    if Window.Flags["AR2/II"] then    getgenv().settings.jesusTog = value
-        if getgenv().settings.jesusTog and localPlr.Character:WaitForChild("Humanoid") then
-            localPlr.Character.LeftFoot.Touched:Connect(function(part)
-                if part.Parent.Name == "Sea" and part.Name == "Water" then
-                    part.CanCollide = getgenv().settings.jesusTog
-                end
-            end)
+    if Window.Flags["AR2/II"] then
+        localPlr.Character.LeftFoot.Touched:Connect(function(part)
+            if part.Parent.Name == "Sea" and part.Name == "Water" then
+                part.CanCollide = getgenv().settings.jesusTog
+            end
+        end)
             
-            localPlr.Character.RightFoot.Touched:Connect(function(part)
-                if part.Parent.Name == "Sea" and part.Name == "Water" then
-                    part.CanCollide = getgenv().settings.jesusTog
-                end
-            end)
-        end
+        localPlr.Character.RightFoot.Touched:Connect(function(part)
+            if part.Parent.Name == "Sea" and part.Name == "Water" then
+                part.CanCollide = getgenv().settings.jesusTog
+            end
+        end)
     end
 end)
 Shinto.Utilities.Misc:NewThreadLoop(0,function()
