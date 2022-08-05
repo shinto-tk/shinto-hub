@@ -74,14 +74,6 @@ function Misc:NewThreadLoop(Wait,Function)
     end)
 end
 
-function Misc:InstantI()
-    for i,v in pairs(getgc()) do
-        if getfenv(v).script == game.ReplicatedStorage.Client.Abstracts.Interface.Interact then
-          table.foreach(getconstants(v),function(a,b) if table.find({0.65,0.3},b) then setconstant(v,a,0) end  end)
-        end
-    end
-end
-
 function Misc:ReJoin()
     if #PlayerService:GetPlayers() <= 1 then
         LocalPlayer:Kick("\nShinto Hub\nRejoining...")

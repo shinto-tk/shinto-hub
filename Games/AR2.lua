@@ -99,7 +99,7 @@ local Window = Shinto.Utilities.UI:Window({
             AimbotSection:Toggle({Name = "Dynamic FOV",Flag = "Aimbot/DynamicFOV",Value = false})
             AimbotSection:Keybind({Name = "Keybind",Flag = "Aimbot/Keybind",Value = "MouseButton2",
             Mouse = true,Callback = function(Key,KeyDown) Aimbot = Window.Flags["Aimbot/Enabled"] and KeyDown end})
-            AimbotSection:Slider({Name = "Smoothness",Flag = "Aimbot/Smoothness",Min = 0,Max = 100,Value = 25,Unit = "%"})
+            AimbotSection:Slider({Name = "Hardness",Flag = "Aimbot/Smoothness",Min = 0,Max = 100,Value = 25,Unit = "%"})
             AimbotSection:Slider({Name = "Field Of View",Flag = "Aimbot/FieldOfView",Min = 0,Max = 500,Value = 100})
             AimbotSection:Slider({Name = "Distance",Flag = "Aimbot/Distance",Min = 25,Max = 1000,Value = 250,Unit = "meters"})
             AimbotSection:Dropdown({Name = "Body Parts",Flag = "Aimbot/BodyParts",List = {
@@ -317,11 +317,12 @@ local Window = Shinto.Utilities.UI:Window({
             MiscSection:Toggle({Name = "Map ESP",Flag = "AR2/MapESP",Value = false,Callback = function(Bool)
                 if Bool then Interface:Get("Map"):EnableGodview() else Interface:Get("Map"):DisableGodview() end
             end}):Keybind()
-            MiscSection:Button({Name = "Instant Interact",Side = "Right",
-            Callback = Shinto.Utilities.Misc.InstantI})
-            local PlrTP = MiscSection:Textbox({Name = "Teleport to Player",Flag = "Misc/PlrTP",Placeholder = "Username",
-            Callback = function(String) tp(String) end})
-            PlrTP:ToolTip("Use No Fall Impact \nStart moving once teleported or you'll be sent back")
+            MiscSection:Toggle({Name = "Speed",Flag = "AR2/Speed",Value= false}):Keybind()
+            MiscSection:Toggle({Name = "Inf Jump",Flag= "AR2/InfJump",Value = false}):Keybind()
+            MiscSection:Toggle({Name = "Instant Interact",Flag = "AR2/II",Value = false}):Keybind()
+            --local PlrTP = MiscSection:Textbox({Name = "Teleport to Player",Flag = "Misc/PlrTP",Placeholder = "Username",
+            --Callback = function(String) tp(String) end})
+            --PlrTP:ToolTip("Use No Fall Impact \nStart moving once teleported or you'll be sent back")
         end
     end
     local SettingsTab = Window:Tab({Name = "Settings"}) do
@@ -744,6 +745,44 @@ RunService.Heartbeat:Connect(function()
             else
                 Zombie.Anchored = false
             end
+        end
+    end
+
+    if Window.Flags["AR2/Speed"] then
+        while wait() and getgenv().settings.speedTog and localPlr.Character:FindFirstChild("Humanoid") do
+            localPlr.Character.HumanoidRootPart.CFrame = localPlr.Character.HumanoidRootPart.CFrame + localPlr.Character.Humanoid.MoveDirection * 0.3
+        end
+    end
+
+    if Window.Flags["AR2/InfJump"] then
+        while wait() and getgenv().settings.infJumpTog do
+            if game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.Space) and localPlr.Character:FindFirstChild("Humanoid") then
+                localPlr.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+            end
+        end
+    end
+
+    if Window.Flags["AR2/II"] then
+        for i,v in pairs(getgc()) do
+            if getfenv(v).script == game.ReplicatedStorage.Client.Abstracts.Interface.Interact then
+              table.foreach(getconstants(v),function(a,b) if table.find({0.65,0.3},b) then setconstant(v,a,0) end  end)
+            end
+        end
+    end
+
+    if Window.Flags["AR2/II"] then    getgenv().settings.jesusTog = value
+        if getgenv().settings.jesusTog and localPlr.Character:WaitForChild("Humanoid") then
+            localPlr.Character.LeftFoot.Touched:Connect(function(part)
+                if part.Parent.Name == "Sea" and part.Name == "Water" then
+                    part.CanCollide = getgenv().settings.jesusTog
+                end
+            end)
+            
+            localPlr.Character.RightFoot.Touched:Connect(function(part)
+                if part.Parent.Name == "Sea" and part.Name == "Water" then
+                    part.CanCollide = getgenv().settings.jesusTog
+                end
+            end)
         end
     end
 end)
